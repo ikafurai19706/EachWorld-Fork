@@ -2,19 +2,21 @@
 
 namespace takesi;
 
-use pocketmine\scheduler\PluginTask;
+use pocketmine\player\GameMode;
+use pocketmine\entity\effect\VanillaEffects;
+use pocketmine\scheduler\Task;
 use pocketmine\Server;
 use pocketmine\utils\Config;
+use pocketmine\permission\DefaultPermissionNames;
 use takesi\main;
 
-class EachTask extends PluginTask
+class EachTask extends Task
 {
 
     public $plugin;
 
     public function __construct(Main $plugin)
     {
-        parent::__construct($plugin);
         $this->plugin = $plugin;
     }
 
@@ -23,30 +25,27 @@ class EachTask extends PluginTask
         return $this->plugin;
     }
 
-    public function onRun($tick)
+    public function onRun(): void
     {
         $players = Server::getInstance()->getOnlinePlayers();
-        $time = date("H:i:s", time());
+        $time = date("Y-m-d H:i:s") . "(JST)";
         foreach ($players as $player) {
 
-            if ($player->hasEffect(14)) {
-                $player->removeEffect(14);
+            if ($player->getEffects()->has(VanillaEffects::INVISIBILITY()) && !$player->hasPermission(DefaultPermissionNames::GROUP_OPERATOR)) {
+                $player->getEffects()->remove(VanillaEffects::INVISIBILITY());
             }
 
             $item = $player->getInventory()->getItemInHand();
+            $player->sendPopup("INFO\n" . "DATE : " . $time . "\nITEM : " . $item->getName() . "\nYOUR POSITION : " . "X>" . $player->getPosition()->getX() . " Y>" . $player->getPosition()->getY() . " Z>" . $player->getPosition()->getZ() . "\nWORLD : " . $player->getWorld()->getFolderName() . "\n");
 
-            $player->sendPopup("INFO\n" . "DATE : " . $time . "\nITEM : " . $item->getName() . " (id=" . $item->getId() . ")\nYOUR POSITION : " . "X>" . $player->getX() . " Y>" . $player->getY() . " Z>" . $player->getZ() . "\nWORLD : " . $player->getlevel()->getName());
-
-            if ($player->getlevel()->getName() != $player->getName()) {
-                $this->config = new Config($this->getPlugin()->getDataFolder() . $player->getlevel()->getName() . ".yml", Config::YAML);
+            if ($player->getWorld()->getFolderName() != $player->getName() and !$player->hasPermission(DefaultPermissionNames::GROUP_OPERATOR)) {
+                $this->config = new Config($this->getPlugin()->getDataFolder() . $player->getWorld()->getFolderName() . ".yml", Config::YAML);
                 if ($this->config->exists("invited_" . $player->getName())) {
-                    if ($player->getGamemode() == 0) {
-                        $player->setGamemode(1);
+                    if ($player->getGamemode() == GameMode::SPECTATOR()) {
+                        $player->setGamemode(GameMode::ADVENTURE());
                     }
                 } else {
-                    if ($player->getGamemode() != 0) {
-                        $player->setGamemode(0);
-                    }
+                    $player->setGamemode(GameMode::ADVENTURE());
                 }
             }
         }

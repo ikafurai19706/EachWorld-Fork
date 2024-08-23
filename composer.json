@@ -1,0 +1,57 @@
+{
+    "name": "ikafu/each-world",
+    "type": "project",
+    "authors": [
+        {
+            "name": "it0maki"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "php-64bit": "*",
+        "ext-chunkutils2": "^0.3.1",
+        "ext-crypto": "^0.3.1",
+        "ext-ctype": "*",
+        "ext-curl": "*",
+        "ext-date": "*",
+        "ext-gmp": "*",
+        "ext-hash": "*",
+        "ext-igbinary": "^3.0.1",
+        "ext-json": "*",
+        "ext-leveldb": "^0.2.1 || ^0.3.0",
+        "ext-mbstring": "*",
+        "ext-morton": "^0.1.0",
+        "ext-openssl": "*",
+        "ext-pcre": "*",
+        "ext-phar": "*",
+        "ext-pmmpthread": "^6.1.0",
+        "ext-reflection": "*",
+        "ext-simplexml": "*",
+        "ext-sockets": "*",
+        "ext-spl": "*",
+        "ext-yaml": ">=2.0.0",
+        "ext-zip": "*",
+        "ext-zlib": ">=1.2.11",
+        "composer-runtime-api": "^2.0",
+        "adhocore/json-comment": "~1.2.0",
+        "pocketmine/pocketmine-mp": "5.12.0",
+        "ramsey/uuid": "~4.7.0",
+        "symfony/filesystem": "~6.4.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "1.10.0",
+        "phpstan/phpstan-phpunit": "^1.0",
+        "phpstan/phpstan-strict-rules": "^1.0",
+        "phpunit/phpunit": "^10.5.24"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ikafu\\EachWorld\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    }
+}

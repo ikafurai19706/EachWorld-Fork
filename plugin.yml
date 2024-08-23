@@ -1,23 +1,21 @@
 name: EachWorld
 main: takesi\main
 version: 2.2
-api: [3.0.0]
+api: [5.0.0]
 load: POSTWORLD
 author: takesi
 commands:
- do:
-  description: "実行コマンド"
-  usage: /do
- permissions:
   do:
-   default: true
- wo:
-  description: "Worldコマンド"
-  usage: /wo <subcommand>
- permissions:
+    description: "実行コマンド"
+    usage: /do
+    permission: eachworld-fork.do
   wo:
-   default: true
-   children:
-      wo.command:
-        description: "Allows you to use all World commands."
-        default: true
+    description: "Worldコマンド"
+    usage: /wo <subcommand>
+    permission: eachworld-fork.wo
+
+permissions:
+  eachworld-fork.do:
+    default: true
+  eachworld-fork.wo:
+    default: true
